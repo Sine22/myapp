@@ -34,7 +34,8 @@ pipeline {
                 steps {
                     sh "docker build . --tag myapp"
               }
-         } stage('Docker Run Image') {
+         } 
+        stage('Docker Run Image') {
                 steps {
                     withCredentials([sshUserPrivateKey(credentialsId: 'mykey', keyFileVariable: 'FILENAME', usernameVariable: 'USERNAME')]) {
                     sh "ssh -o StrictHostKeyChecking=no -i ${FILENAME} ${USERNAME}@docker 'docker run --detch --publish 4444:4444 ttl.sh/myapp:1h'"   
