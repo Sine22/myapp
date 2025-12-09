@@ -30,5 +30,14 @@ pipeline {
                     sh "docker build . --tag myapp"
               }
          }
+         stage('Build Docker Image') {
+                steps {
+                    sh "docker build . --tag myapp"
+              }
+         } stage('Docker Run Image') {
+                steps {
+                    sh "ssh larborant@docker 'docker run --detch --publish 4444:4444 ttl.sh/myapp:1h'"
+              }
+         }
      }
 }
