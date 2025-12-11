@@ -28,13 +28,13 @@ pipeline {
         stage('Build Docker Image') {
                 steps {
                     // sh "docker build . --tag myapp"
-                    sh "docker build -tag ttl.sh/myapp:2h ."
+                    sh "docker build --tag ttl.sh/myapp:2h ."
               }
          }
           stage('Build Push Image') {
                 steps {
                     // sh "docker build . --tag myapp"
-                    sh "docker push ttl.sh/myapp:2h ."
+                    sh "docker push ttl.sh/myapp:2h"
               }
          }
         stage('Docker Run Image') {
