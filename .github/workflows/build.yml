@@ -1,16 +1,16 @@
 # This workflow will build a golang project
 # For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-go
 
-name: Build Myapp
+name: Build MyApp
 
 on:
   push:
     branches: [ "*" ]
-
+ 
 jobs:
 
   build:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
     - uses: actions/checkout@v4
 
@@ -21,15 +21,25 @@ jobs:
 
     - name: Test
       run: go test -v ./...
-    
+      
     - name: Build
       run: go build main.go
-
+      
     - name: Deploy
-      run:
-      echo "${{ secrets.MYKEY }}" > ~/.ssh/mykey
-      chmod 600 ~/.ssh/mykey
-      cat ~/.ssh/mykey
-      scp -o StrictKeyChecking=no -i ~/.ssh/key main laborant@target:
+      run: |
+        echo "${{ secrets.MYKEY }}" > ~/.ssh/mykey
+        
+        chmod 600 ~/.ssh/mykey
 
-    
+        ssh -o StrictHostKeyChecking=no -i ~/.ssh/mykey laborant@target "sudo systemctl stop myapp" || true
+        
+        scp -o StrictHostKeyChecking=no -i ~/.ssh/mykey main laborant@target:
+
+        scp -o StrictHostKeyChecking=no -i ~/.ssh/mykey myapp.service laborant@target:
+
+        ssh -o StrictHostKeyChecking=no -i ~/.ssh/mykey laborant@target "sudo mv ~/myapp.service /etc/systemd/system"
+
+        ssh -o StrictHostKeyChecking=no -i ~/.ssh/mykey laborant@target "sudo systemctl daemon-reload"
+        
+        ssh -o StrictHostKeyChecking=no -i ~/.ssh/mykey laborant@target "sudo systemctl start myapp"
+        
