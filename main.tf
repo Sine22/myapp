@@ -5,7 +5,7 @@ provider "aws" {
 resource "aws_key_pair" "main" {
   key_name   = "mykey"
   ## replace the key with the content from previous command
-  public_key = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPtuDB8dQm10ZkAsKoi7/kG3XwaBgU4/Xb7Zp1FRtW/I laborant@flexbox (managed)"
+  public_key = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILQzhSc+pO0CqtSPX7naKPhccrpfqOHE1geQWeJnXu4u laborant@flexbox (managed)"
 }
 
 resource "aws_security_group" "main" {
