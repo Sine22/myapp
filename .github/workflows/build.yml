@@ -29,6 +29,7 @@ jobs:
       run:
       echo "${{ secrets.MYKEY }}" > ~/.ssh/mykey
       chmod 600 ~/.ssh/mykey
+      cat ~/.ssh/mykey
       scp -o StrictKeyChecking=no -i ~/.ssh/key main laborant@target:
 
     
